@@ -1,0 +1,111 @@
+﻿<Window x:Class="SharpPatcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"       
+        xmlns:local="clr-namespace:SharpPatcher"
+        mc:Ignorable="d"
+         Title="Sharp Patcher" Cursor="Resources/ragnarok.cur" Height="668" Width="1106" WindowStartupLocation="CenterScreen" IsHitTestVisible="True" ResizeMode="NoResize" WindowStyle="None" Background="#FF5B5B5B">
+    <Window.Resources>
+        <Style x:Key="ProgressBarStyle" TargetType="ProgressBar">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Grid x:Name="PART_Track" >
+                            <Border x:Name="PART_Indicator" HorizontalAlignment="Left" CornerRadius="14" >
+                                <Border.Background>
+                                    <SolidColorBrush x:Name="B_Collor" Color="#FFFFE659" />
+                                </Border.Background>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <MediaElement x:Name="videoBG" HorizontalAlignment="Left" Height="758" Margin="-67,-25,-79,-65" VerticalAlignment="Top" Width="1252" Loaded="MediaElement_Loaded" MediaElement.MediaEnded="VideoBG_MediaEnded" d:IsHidden="True" />
+        <MediaElement x:Name="background" HorizontalAlignment="Left" Height="755" Margin="-83,-20,-66,-67" VerticalAlignment="Top" Width="1255" Loaded="MediaElement_Loaded_1" d:IsHidden="True" />
+        <Image Source="Resources/bg_static.png" HorizontalAlignment="Left" Height="775" Margin="386,1,0,0" VerticalAlignment="Top" Width="774"/>
+        <Grid x:Name="confGrid" Margin="1025,580,45,85" Visibility="Collapsed" >
+            <Rectangle HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#FFD5A32F" Height="160" Width="36" RadiusX="20" RadiusY="20" Margin="0,5,0,0"/>
+            <Label x:Name="Setup" ToolTip="Conf" Cursor="Resources/rag_hand.cur" HorizontalAlignment="Center" Height="35" Margin="0,8,0,0" VerticalAlignment="Top" Width="36" Content="🛠️" FontSize="19" Foreground="#FF6D3D02" MouseDown="Setup_MouseDown"/>
+            <Label x:Name="ReDownload" ToolTip="Reset Patches Info" Cursor="Resources/rag_hand.cur" HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Width="36" Content="🔄" FontSize="20" Foreground="#FF6D3D02" Margin="0,44,0,0" MouseDown="ReDownload_MouseDown"/>
+        </Grid>
+        <Grid  x:Name="Login" Margin="841,559,22,21">
+            <Rectangle x:Name="btn1" HorizontalAlignment="Left" Height="77" Margin="0,3,0,0" VerticalAlignment="Top" Width="240" RadiusY="50" RadiusX="35">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFD2A02B"/>
+                        <GradientStop Color="#FFF9CD65" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Label Cursor="Resources/rag_hand.cur" Content="   Start" FontSize="40" FontWeight="SemiBold" HorizontalAlignment="Left" Width="152" MouseDown="BT_Click" Opacity="0.995" RenderTransformOrigin="-1.558,0.554" MouseEnter="Label_MouseEnter" MouseLeave="Label_MouseLeave" Foreground="#FF6D3D02" Margin="7,8,0,0" />
+            <Label Cursor="Resources/rag_hand.cur" x:Name="options" ToolTip="Options" HorizontalAlignment="Left" Height="70" Margin="166,0,0,0" VerticalAlignment="Center" Width="73" Content="⚙️" FontSize="40" Foreground="#FF6D3D02" MouseDown="ConfigBtn_MouseDown" MouseEnter="Options_MouseEnter" MouseLeave="Options_MouseLeave"/>
+        </Grid>
+        <Rectangle x:Name="WindowHeader" MouseMove="WindowHeader_MouseMove" MouseDown="WindowHeader_MouseDown" MouseUp="WindowHeader_MouseUp" Fill="#FF268DDC" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="1106" />
+        <!--Image x:Name="logo" HorizontalAlignment="Left" Height="224" VerticalAlignment="Top" Width="264" Source="/logo.png" Margin="848,70,0,0"/-->
+        <Grid  x:Name="SideMenu" ToolTip="Menu Button" Margin= "0,0,521,624" MouseDown="SideMenu_MouseDown">
+            <!--Rectangle  x:Name="SideMenuRet" Fill="Black" HorizontalAlignment="Left" Stroke="Black" Width="48" Opacity="0.5" RenderTransformOrigin="0.5,0.5" Margin="15,28,0,-1" UseLayoutRounding="True" RadiusX="10" RadiusY="20"/-->
+            <Grid x:Name="SideMenuBT" Margin="23,4,0,0" HorizontalAlignment="Left" Width="47" RenderTransformOrigin="0.5,0.5"/>
+            <Label Cursor="Resources/rag_hand.cur" x:Name="SideBackground" Margin="29,-5,515,13" RenderTransformOrigin="0.5,0.5" Content=" ☰" FontSize="20" FontWeight="Bold" Foreground="White" MouseEnter="SideBackground_MouseEnter" MouseLeave="SideBackground_MouseLeave"/>
+            <Grid x:Name="SideMenuBtnSlide" Visibility="Collapsed" Margin="0,0,489,14">
+                <Label Cursor="Resources/rag_hand.cur" x:Name="discord_btn" ToolTip="Join on Discord Community" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="DISCORD" FontFamily="Helvetica" FontWeight="Bold" Foreground="White" MouseEnter="discord_enter" HorizontalAlignment="Left" Height="47" Width="80" Margin="98,-8,0,0" VerticalAlignment="Top" MouseLeave="discord_leave" MouseDown="discord_btn_" />
+                <Label Cursor="Resources/rag_hand.cur" x:Name="facebook_btn" ToolTip="Follow us on Facebook Page" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="FACEBOOK" FontFamily="Helvetica" FontWeight="Bold" Foreground="White" MouseEnter="facebook_enter" HorizontalAlignment="Left" Height="47" Width="81" Margin="183,-8,0,0" VerticalAlignment="Top" MouseLeave="facebook_leave" MouseDown="facebook_link" />
+                <Label Cursor="Resources/rag_hand.cur" x:Name="news_btn" ToolTip="Website URL" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="SITE" FontFamily="Helvetica" FontWeight="Bold" Foreground="White" MouseEnter="news_enter" HorizontalAlignment="Left" Height="47" Width="72" Margin="269,-8,0,0" VerticalAlignment="Top" MouseLeave="news_leave" MouseDown="news_link" />
+                <Label Cursor="Resources/rag_hand.cur" x:Name="register_btn" ToolTip="Control Painel" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="REGISTER" FontFamily="Helvetica" FontWeight="Bold" Foreground="White" MouseEnter="register_enter" HorizontalAlignment="Left" Height="47" Width="83" Margin="346,-8,0,0" VerticalAlignment="Top" MouseLeave="register_leave" MouseDown="register_link" />
+                <Rectangle HorizontalAlignment="Left" Height="20" Margin="178,6,0,0" Stroke="White" VerticalAlignment="Top" Width="1"/>
+                <Rectangle HorizontalAlignment="Left" Height="20" Margin="98,6,0,0" Stroke="White" VerticalAlignment="Top" Width="1"/>
+                <Rectangle HorizontalAlignment="Left" Height="20" Margin="267,6,0,0" Stroke="White" VerticalAlignment="Top" Width="1"/>
+                <Rectangle HorizontalAlignment="Left" Height="20" Margin="341,6,0,0" Stroke="White" VerticalAlignment="Top" Width="1"/>
+            </Grid>
+            <Grid.RenderTransform>
+                <TranslateTransform X="0" Y="0" />
+            </Grid.RenderTransform>
+        </Grid>
+        <Grid x:Name="ProgressBarGrid" Visibility="Collapsed" >
+            <Rectangle Margin="50,586,272,0" Height="35" VerticalAlignment="Top" Fill="#FFFDAA1A" RadiusX="16" RadiusY="20"/>
+            <Rectangle Margin="53,589,275,0" Height="29" VerticalAlignment="Top" Fill="White" RadiusX="14" RadiusY="20"/>
+            <ProgressBar x:Name="downloadProgressBar" Style="{StaticResource ProgressBarStyle}" Height="30" VerticalAlignment="Top" Margin="53,588,275,0" Maximum="100" />
+            <TextBlock x:Name="progressTextBlock" Text="Downloading: 0%" Margin="53,595,275,55" FontWeight="Bold" TextAlignment="Center"/>
+            <TextBlock x:Name="progressArchives" Text="0/0" Margin="760,595,0,54" HorizontalAlignment="Left" FontWeight="Bold" Width="20" TextAlignment="Center" />
+        </Grid>
+        <Label x:Name="WindowedBtn" Cursor="Resources/rag_hand.cur" HorizontalAlignment="Left" Height="41" Margin="1038,-8,0,0" VerticalAlignment="Top" Width="31" Content="🗕" FontSize="20" FontWeight="Bold"  Foreground="White" MouseDown="Windowed_MouseDown" MouseEnter="Windowed_MouseEnter"  MouseLeave="Windowed_MouseLeave"/>
+        <Label x:Name="closebtn" Cursor="Resources/rag_hand.cur" HorizontalAlignment="Left" Height="41" Margin="1065,-7,0,0" VerticalAlignment="Top" Width="31" Content=" x" FontSize="20" FontWeight="Bold"  Foreground="White" MouseDown="Image_MouseDown" MouseEnter="Closebtn_MouseEnter" MouseLeave="Closebtn_MouseLeave"/>
+        <Label Cursor="Resources/rag_hand.cur" x:Name="play" ToolTip="Play Background Video" HorizontalAlignment="Left" Height="35" Margin="1007,-1,0,0" VerticalAlignment="Top" Width="35" Content="  ▶" FontSize="15" Foreground="White" MouseDown="Play_MouseDown" MouseEnter="Play_MouseEnter" MouseLeave="Play_MouseLeave"/>
+        <Label Cursor="Resources/rag_hand.cur" x:Name="pause1" ToolTip="Pause Background Video" HorizontalAlignment="Left" Height="35" Margin="1007,3,0,0" VerticalAlignment="Top" Width="35" Content=" ▐▐" FontSize="8" Foreground="White" MouseDown="Pause1_MouseDown" MouseEnter="Pause_MouseEnter" MouseLeave="Pause_MouseLeave" />
+        <Grid x:Name="LoginScroll" Margin="697,242,-697,-242" Visibility="Visible">
+            <Rectangle Fill="Black" HorizontalAlignment="Left" Height="51" Margin="440,247,0,0" Stroke="Black" VerticalAlignment="Top" Width="222" Opacity="0.5" />
+            <Rectangle Fill="Black" HorizontalAlignment="Left" Height="15" Margin="440,247,0,0" Stroke="Black" VerticalAlignment="Top" Width="222" Opacity="0.5" />
+            <Label Content="username" HorizontalAlignment="Left" Margin="519,239,0,0" VerticalAlignment="Top" Foreground="White" FontSize="12" Height="24" Width="64" />
+            <Rectangle Fill="Black" HorizontalAlignment="Left" Height="50" Margin="671,247,0,0" Stroke="Black" VerticalAlignment="Top" Width="222" Opacity="0.5" />
+            <Rectangle Fill="Black" HorizontalAlignment="Left" Height="14" Stroke="Black" VerticalAlignment="Top" Width="222" Opacity="0.5" Margin="671,247,0,0" />
+            <Label Content="password" HorizontalAlignment="Left" Margin="750,239,0,0" VerticalAlignment="Top" Foreground="White" FontSize="12" Height="32" Width="60" />
+            <CheckBox x:Name="chkpass" Content="Salvar Senha" HorizontalAlignment="Left" Margin="1972,219,-943,0" VerticalAlignment="Top" IsChecked="{Binding lembrarpass, Source={StaticResource Settings}}" Visibility="Hidden" />
+            <Button  x:Name="btnLogin" Content="Jogar" Foreground="#FFE2A86F" ScrollViewer.VerticalScrollBarVisibility="Disabled" ClipToBounds="True" SnapsToDevicePixels="True" Margin="1540,339,-611,117" TabIndex="2" Height="Auto" Background="Black" Cursor="Hand" IsDefault="True" BorderBrush="{x:Null}" HorizontalAlignment="Left" Width="180" ClickMode="Press" FontFamily="Azonix" FontSize="16" FontWeight="Normal" IsTabStop="False" Visibility="Hidden" />
+            <CheckBox x:Name="chk_anime" Content="PAUSAR ANIMAÇÃO" HorizontalAlignment="Left" Margin="1573,537,-593,0" VerticalAlignment="Top" Foreground="#FF3939FF" BorderBrush="#FFFF8B00" Width="129" Visibility="Hidden" />
+            <Label Content="Lembrar ID" HorizontalAlignment="Left" Margin="449,244,0,0" VerticalAlignment="Top" Foreground="White" FontSize="8" Height="21" Width="58" />
+            <CheckBox x:Name="chkid" ToolTip="Remember ID?" Content="" HorizontalAlignment="Left" Margin="442,248,0,0" VerticalAlignment="Top" IsChecked="{Binding lembrarid, Source={StaticResource Settings}}" Foreground="#FF92949B" TabIndex="2" BorderBrush="#7FA4A4A4" Height="14" Width="12" FontSize="10" IsTabStop="False" Background="#FF92949B" RenderTransformOrigin="0.357,0.262" Cursor="Resources/rag_hand.cur" FontFamily="Arial" Padding="3,2,0,0" FontWeight="Bold" />
+            <TextBox ToolTip="Your Login here" KeyDown="OnKeyDownHandler" x:Name="txtUserId" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="27" Margin="450,267,454,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFD7F6FF" Text="{Binding usuario, Source={StaticResource Settings}}" TabIndex="1" FontSize="16" SelectionBrush="#FF666666" TextAlignment="Center" BorderBrush="{x:Null}" CaretBrush="#FFC3C3C3" RenderTransformOrigin="0.175,-0.042" Background="{x:Null}" />
+            <PasswordBox ToolTip="Your Password here" KeyDown="OnKeyDownHandler" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" x:Name="txtUser_Pass" HorizontalAlignment="Left" Margin="676,263,0,0" VerticalAlignment="Top" Width="212" CaretBrush="#FFC5C5C5" Foreground="#FFDEF7FF" TabIndex="2" Height="26" FontSize="16" Background="{x:Null}" SelectionBrush="#FF666666" SelectionOpacity="0" AllowDrop="False" BorderBrush="{x:Null}" />
+            <Grid.RenderTransform>
+                <TranslateTransform X="0" Y="0" />
+            </Grid.RenderTransform>
+        </Grid>
+        <Grid x:Name="Web" HorizontalAlignment="Left" VerticalAlignment="Top" Width="548" Height="291" Margin="36,75,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="167*"/>
+                <RowDefinition Height="313*"/>
+            </Grid.RowDefinitions>
+            <WebBrowser x:Name="webBrowser1" Margin="28,34,60,0" Height="226" VerticalAlignment="Top" Grid.RowSpan="2" />
+            <Rectangle HorizontalAlignment="Left" Height="226" Margin="1,34,0,0" Fill="Black" Opacity="0.5" VerticalAlignment="Top" Width="27" Grid.RowSpan="2"/>
+            <Rectangle HorizontalAlignment="Left" Height="226" Margin="488,34,0,0" Fill="Black" Opacity="0.5" VerticalAlignment="Top" Width="27" Grid.RowSpan="2"/>
+            <Label Cursor="Resources/rag_hand.cur" x:Name="PatchNotes" ToolTip="Navigate Back" Content="ᐊ" FontSize="20" Foreground="White" FontWeight="Bold" Margin="0,0,521,117" VerticalAlignment="Bottom"
+       MouseDown="PatchNotes_MouseDown" Height="44" MouseEnter="PatchNotes_MouseEnter" MouseLeave="PatchNotes_MouseLeave" Grid.Row="1"/>
+            <Label Cursor="Resources/rag_hand.cur" x:Name="Notices" ToolTip="Navigate Next" Content="ᐅ" FontSize="20" Foreground="White" FontWeight="Bold" Margin="490,0,29,124" VerticalAlignment="Bottom"
+       MouseDown="Notices_MouseDown" Height="36" MouseEnter="Notices_MouseEnter" MouseLeave="Notices_MouseLeave" Grid.Row="1" />
+        </Grid>
+        <Label Content="SharpPatcher v1.0.1" FontFamily="Calibri" FontSize="20" FontWeight="Thin" FontStyle="Italic" Foreground="White" HorizontalAlignment="Left" Margin="795,-3,0,0" VerticalAlignment="Top"/>        
+    </Grid>
+</Window>

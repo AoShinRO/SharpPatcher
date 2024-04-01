@@ -1,0 +1,3 @@
+ON - Use SSO Login Packet
+OFF - Restore Old Login packet
+OFF - Disable 1rag1 type params
