@@ -15,9 +15,6 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Grid Margin="188,77,435,118">
-            <Image Source="Resources/Kafra2.png" HorizontalAlignment="Left" Height="570" VerticalAlignment="Top" Width="294" Margin="3,0,0,0"/>
-        </Grid>
         <Label Content="AFRA" FontFamily="Impact" FontSize="50" Foreground="White" HorizontalAlignment="Left" Margin="400,208,0,0" VerticalAlignment="Top" Height="72" Width="112"/>
         <Label Content="K" FontFamily="LilyUPC" FontSize="160" FontWeight="Bold" Foreground="#FFFF5454" HorizontalAlignment="Left" Margin="344,158,0,0" VerticalAlignment="Top" Height="116" Width="94"/>
         <Label Content="CLIENT ANALYZER" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White" HorizontalAlignment="Left" Margin="389,258,0,0" VerticalAlignment="Top" Height="36" Width="124" Cursor="AppStarting"/>
