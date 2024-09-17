@@ -7,13 +7,13 @@ using System.Windows;
 // As informações gerais sobre um assembly são controladas por
 // conjunto de atributos. Altere estes valores de atributo para modificar as informações
 // associada a um assembly.
-[assembly: AssemblyTitle("Launcher R.io Project")]
-[assembly: AssemblyDescription("Abre a tela de login do R.io Project")]
+[assembly: AssemblyTitle("SharpPatcher")]
+[assembly: AssemblyDescription("Abre a tela de login do SharpPatcher")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Microsoft")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2019")]
-[assembly: AssemblyTrademark("Microsoft")]
+[assembly: AssemblyCompany("AoShinHo")]
+[assembly: AssemblyProduct("SharpPatcher")]
+[assembly: AssemblyCopyright("Copyright © AoShinHo 2023")]
+[assembly: AssemblyTrademark("SharpPatcher by AoShinHo")]
 [assembly: AssemblyCulture("")]
 
 // Definir ComVisible como false torna os tipos neste assembly invisíveis
@@ -51,8 +51,8 @@ using System.Windows;
 // É possível especificar todos os valores ou usar como padrão os Números de Build e da Revisão
 // utilizando o "*" como mostrado abaixo:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.1")]
-[assembly: AssemblyFileVersion("1.0.0.1")]
+[assembly: AssemblyVersion("1.0.0.3")]
+[assembly: AssemblyFileVersion("1.0.0.3")]
 [assembly: NeutralResourcesLanguage("pt-BR")]
 [assembly: Guid("81F24BD5-6EE6-4DAE-BE90-B271AC46305E")]
 
