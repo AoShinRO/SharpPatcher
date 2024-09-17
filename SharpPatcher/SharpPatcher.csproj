@@ -99,7 +99,7 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>none</DebugType>
@@ -264,16 +264,17 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>move "$(TargetDir)GRF.dll" "$(SolutionDir)\$(ProjectName)\bin\$(Platform)\$(Configuration)\References"
-move "$(TargetDir)SharpCompress.dll" "$(SolutionDir)\$(ProjectName)\bin\$(Platform)\$(Configuration)\References"
-move "$(TargetDir)System.Buffers.dll" "$(SolutionDir)\$(ProjectName)\bin\$(Platform)\$(Configuration)\References"
-move "$(TargetDir)System.Memory.dll" "$(SolutionDir)\$(ProjectName)\bin\$(Platform)\$(Configuration)\References"
-move "$(TargetDir)System.Numerics.Vectors.dll" "$(SolutionDir)\$(ProjectName)\bin\$(Platform)\$(Configuration)\References"
-move "$(TargetDir)System.Runtime.CompilerServices.Unsafe.dll" "$(SolutionDir)\$(ProjectName)\bin\$(Platform)\$(Configuration)\References"
-move "$(TargetDir)System.Threading.Tasks.Extensions.dll" "$(SolutionDir)\$(ProjectName)\bin\$(Platform)\$(Configuration)\References"
-move "$(TargetDir)Utilities.dll" "$(SolutionDir)\$(ProjectName)\bin\$(Platform)\$(Configuration)\References"
-move "$(TargetDir)ZstdSharp.dll" "$(SolutionDir)\$(ProjectName)\bin\$(Platform)\$(Configuration)\References"
-move "$(TargetDir)ErrorManager.dll" "$(SolutionDir)\$(ProjectName)\bin\$(Platform)\$(Configuration)\References"
-move "$(TargetDir)zlib.net.dll" "$(SolutionDir)\$(ProjectName)\bin\$(Platform)\$(Configuration)\References"</PostBuildEvent>
+    <PostBuildEvent>move "$(TargetDir)GRF.dll" "$(SolutionDir)\$(ProjectName)\bin\References"
+move "$(TargetDir)SharpCompress.dll" "$(SolutionDir)\$(ProjectName)\bin\References"
+move "$(TargetDir)System.Buffers.dll" "$(SolutionDir)\$(ProjectName)\bin\References"
+move "$(TargetDir)System.Memory.dll" "$(SolutionDir)\$(ProjectName)\bin\References"
+move "$(TargetDir)System.Numerics.Vectors.dll" "$(SolutionDir)\$(ProjectName)\bin\References"
+move "$(TargetDir)System.Runtime.CompilerServices.Unsafe.dll" "$(SolutionDir)\$(ProjectName)\bin\References"
+move "$(TargetDir)System.Threading.Tasks.Extensions.dll" "$(SolutionDir)\$(ProjectName)\bin\References"
+move "$(TargetDir)Utilities.dll" "$(SolutionDir)\$(ProjectName)\bin\References"
+move "$(TargetDir)ZstdSharp.dll" "$(SolutionDir)\$(ProjectName)\bin\References"
+move "$(TargetDir)ErrorManager.dll" "$(SolutionDir)\$(ProjectName)\bin\References"
+move "$(TargetDir)zlib.net.dll" "$(SolutionDir)\$(ProjectName)\bin\References"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
