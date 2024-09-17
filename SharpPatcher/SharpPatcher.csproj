@@ -178,9 +178,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AnimationHelper.cs" />
     <Compile Include="Anticheat.xaml.cs">
       <DependentUpon>Anticheat.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AntiCheatHelper.cs" />
+    <Compile Include="AssemblyResolver.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="Consts.cs" />
+    <Compile Include="DownloadHelper.cs" />
+    <Compile Include="ProcessHelper.cs" />
     <Compile Include="Settings.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
