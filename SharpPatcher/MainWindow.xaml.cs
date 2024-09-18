@@ -20,14 +20,17 @@ namespace SharpPatcher
         public MainWindow()
         {
             InitializeComponent();
+            StartingProcess();
+        }
 
+        public void StartingProcess()
+        {
             Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             GRF_Set_Temp();
             GetWindowPosition();
 
-            // Navigate to the specified website
             StartNavigator();
             CollapseWindowOnStart();
             InitializeNotifyIcon();
@@ -67,8 +70,6 @@ namespace SharpPatcher
             WindowedBtnMargin = WindowedBtn.Margin;
         }
 
-        #region UserOptions
-
         private void Setup_MouseDown(object sender, MouseButtonEventArgs e)
         {
             try
@@ -102,8 +103,6 @@ namespace SharpPatcher
                 default: MessageBox.Show("Please, wait finish download."); break;
             }
         }
-
-        #endregion UserOptions
 
         #region ProcessStart
 
@@ -240,7 +239,6 @@ namespace SharpPatcher
             Video_Play();
         }
 
-        private void VideoBG_MediaEnded_1(object sender, RoutedEventArgs e) => Video_Play();
         private void VideoBG_MediaEnded(object sender, RoutedEventArgs e) => Video_Play();
 
         private void Video_Play()
@@ -256,14 +254,6 @@ namespace SharpPatcher
         #endregion Background
 
         #region Blank
-
-        private void Label_Enter(object sender, MouseEventArgs e)
-        {
-        }
-
-        private void Label_Leave(object sender, MouseEventArgs e)
-        {
-        }
 
         private void discord_enter(object sender, MouseEventArgs e)
         {

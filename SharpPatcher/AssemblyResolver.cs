@@ -21,5 +21,6 @@ namespace SharpPatcher
             Application.Current.Shutdown();
             e.Handled = true;
         }
+        
     }
 }
