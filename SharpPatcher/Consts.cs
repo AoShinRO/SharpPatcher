@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GRF.Core;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,10 +22,11 @@ namespace SharpPatcher
             PATH
         };
 
-        public struct DownloadedArquive
+        public struct PatcherQueueArquive
         {
-            public string Arquive { get; set; }
+            public string Path { get; set; }
             public HostCMD Type { get; set; }
+            public bool IsRemove { get; set; }
         }
 
         public static NotifyIcon _notifyIcon { set; get; } = new NotifyIcon();
@@ -55,11 +57,13 @@ namespace SharpPatcher
 
         public static readonly string programDirectory = Directory.GetCurrentDirectory();
 
-        public static List<DownloadedArquive> DownloadedList { set; get; } = new List<DownloadedArquive>();
+        public static List<PatcherQueueArquive> PatcherQueue { set; get; } = new List<PatcherQueueArquive>();
 
         public static Uri BG_IMG = new Uri(programDirectory + "/Resources/Background/background.png");
 
         public static Uri BG_VIDEO = new Uri(programDirectory + "/Resources/Background/bg.mp4");
+
+        public static GrfHolder MainGRF;
 
         #region LoadingConfs
 
