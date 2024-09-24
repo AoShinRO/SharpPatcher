@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
-using NotifyIcon = System.Windows.Forms.NotifyIcon;
-using ContextMenu = System.Windows.Forms.ContextMenu;
 using static SharpPatcher.Config;
 using Application = System.Windows.Application;
+using ContextMenu = System.Windows.Forms.ContextMenu;
+using NotifyIcon = System.Windows.Forms.NotifyIcon;
 
 namespace SharpPatcher
 {
@@ -55,6 +57,10 @@ namespace SharpPatcher
 
         public static List<DownloadedArquive> DownloadedList { set; get; } = new List<DownloadedArquive>();
 
+        public static Uri BG_IMG = new Uri(programDirectory + "/Resources/Background/background.png");
+
+        public static Uri BG_VIDEO = new Uri(programDirectory + "/Resources/Background/bg.mp4");
+
         #region LoadingConfs
 
         public static bool LoadWebpages()
@@ -62,16 +68,23 @@ namespace SharpPatcher
             if (!File.Exists(weburlPath))
                 return false;
 
-            try
+            if (File.ReadLines(weburlPath).Any())
             {
-                string[] urls = File.ReadAllLines(weburlPath);
-
-                foreach (string url in urls)
+                try
                 {
-                    Urls.Add(url);
+                    string[] urls = File.ReadAllLines(weburlPath);
+
+                    foreach (string url in urls)
+                    {
+                        Urls.Add(url);
+                    }
+                }
+                catch
+                {
+                    return false;
                 }
             }
-            catch
+            else
             {
                 return false;
             }

@@ -41,10 +41,22 @@ namespace SharpPatcher
 
         public void StartNavigator()
         {
-            if (LoadWebpages())
-                webBrowser1.Navigate(Urls?.FirstOrDefault());
-            else
+            try
+            {
+                if (LoadWebpages())
+                {
+                    if (Urls.FirstOrDefault() != string.Empty)
+                        webBrowser1.Navigate(Urls.FirstOrDefault());
+                    else
+                        MessageBox.Show($"Fail to load URLs");
+                }
+                else
+                    MessageBox.Show($"Fail to load URLs");
+            }
+            catch
+            {
                 MessageBox.Show($"Fail to load URLs");
+            }
         }
 
         public void CollapseWindowOnStart()
@@ -193,9 +205,9 @@ namespace SharpPatcher
 
         #region Background
 
-        private void MediaElement_Loaded_1(object sender, RoutedEventArgs e) => 
-            background.Source = new Uri(programDirectory + "/Resources/Background/background.png");
-     
+        private void MediaElement_Loaded_1(object sender, RoutedEventArgs e) =>
+            background.Source = BG_IMG;
+
         #region Video
 
         private void Pause1_MouseDown(object sender, MouseButtonEventArgs e)
@@ -233,7 +245,7 @@ namespace SharpPatcher
 
         private void MediaElement_Loaded(object sender, RoutedEventArgs e)
         {
-            videoBG.Source = new Uri(programDirectory + "/Resources/Background/bg.mp4");
+            videoBG.Source = BG_VIDEO;
             videoBG.LoadedBehavior = MediaState.Manual;
 
             Video_Play();
@@ -324,6 +336,7 @@ namespace SharpPatcher
             {
             }
         }
+
         #region Links
 
         private void discord_btn_(object sender, MouseButtonEventArgs e) => Process.Start(DiscordLink);
@@ -335,6 +348,7 @@ namespace SharpPatcher
         private void register_link(object sender, MouseButtonEventArgs e) => Process.Start(RegisterLink);
 
         #endregion Links
+
         private void SideMenu_MouseDown(object sender, MouseButtonEventArgs e)
         {
             try

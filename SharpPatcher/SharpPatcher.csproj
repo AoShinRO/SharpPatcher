@@ -279,6 +279,9 @@ move "$(TargetDir)zlib.net.dll" "$(SolutionDir)\$(ProjectName)\bin\References"
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>if not exist "$(SolutionDir)\$(ProjectName)\bin\References\" mkdir "$(SolutionDir)\$(ProjectName)\bin\References\"
-if not exist "$(SolutionDir)\$(ProjectName)\bin\Resources\" mkdir "$(SolutionDir)\$(ProjectName)\bin\Resources\"</PreBuildEvent>
+if not exist "$(SolutionDir)\$(ProjectName)\bin\Resources\" mkdir "$(SolutionDir)\$(ProjectName)\bin\Resources\"
+if not exist "$(SolutionDir)\$(ProjectName)\bin\links.ini" type nul &gt; "$(SolutionDir)\$(ProjectName)\bin\links.ini"
+
+</PreBuildEvent>
   </PropertyGroup>
 </Project>
