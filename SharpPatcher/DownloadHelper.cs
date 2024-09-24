@@ -40,16 +40,21 @@ namespace SharpPatcher
                     i++;
                     UpdateArchiveText($"{i}/{PatcherQueue.Count()}");
                 }
-                PatcherQueue.Clear();
+            }
+            catch (GRF.ContainerFormat.GrfException ex)
+            {
+                if (MainGRF.IsOpened)
+                    MainGRF.Close();
+                 ShowMsgError($"Fail processing downloaded arquive: {ex.Message}");
             }
             catch (Exception ex)
             {
-                if (!MainGRF.IsClosed)
+                if (MainGRF.IsOpened)
                     MainGRF.Close();
 
                 ShowMsgError($"Fail processing downloaded arquive: {ex.Message}");
             }
-            if (!MainGRF.IsClosed)
+            if (MainGRF.IsOpened)
                 MainGRF.Close();
         }
 
@@ -58,7 +63,10 @@ namespace SharpPatcher
             try
             {
                 patchcount = 0;
-                string[] indices = File.ReadAllLines(indicesFilePath);
+                if(!File.Exists(DownloadedPatches))
+                    return;
+
+                string[] indices = File.ReadAllLines(DownloadedPatches);
 
                 foreach (string index in indices)
                 {
@@ -81,7 +89,7 @@ namespace SharpPatcher
             {
                 string[] indicesArray = downloadedIndices.Select(index => index.ToString()).ToArray();
 
-                File.WriteAllLines(indicesFilePath, indicesArray);
+                File.WriteAllLines(DownloadedPatches, indicesArray);
             }
             catch (Exception ex)
             {
@@ -118,6 +126,9 @@ namespace SharpPatcher
             {
                 // Replace "patchUrl" with the actual URL where your patch notes are hosted
                 string Patch = $"{patchUrl}/{patchArchive}";
+
+                if (!Directory.Exists(DownloadFolderName))
+                    Directory.CreateDirectory(DownloadFolderName);
 
                 using (WebClient client = new WebClient())
                 {
@@ -181,6 +192,20 @@ namespace SharpPatcher
             }
             finally
             {
+                if (Directory.Exists(DownloadFolderName))
+                {
+                    int i = 0;
+                    foreach (PatcherQueueArquive PatcherInfo in PatcherQueue)
+                    {
+                        if(File.Exists(PatcherInfo.Path))
+                            File.Delete(PatcherInfo.Path);
+
+                        i++;
+                        UpdateArchiveText($"{i}/{PatcherQueue.Count() + 1}");
+                    }
+                    PatcherQueue.Clear();
+                }
+
                 GRF_Clean_Temp();
                 // Reset the progress bar value after completion
                 UpdateUserInfo("Game is ready to Start!");
@@ -225,8 +250,8 @@ namespace SharpPatcher
                 using (WebClient client = new WebClient())
                 {
                     // Specify the local path where you want to save the downloaded file
-                    string localFilePath = $"./{fileName.Trim()}";
-
+                    //string localFilePath = $"./{fileName.Trim()}";
+                    string localFilePath = $"./{DownloadFolderName}/{fileName.Trim()}";
                     // Report progress using the ProgressChanged event
                     client.DownloadProgressChanged += (sender, e) =>
                     {
@@ -256,6 +281,9 @@ namespace SharpPatcher
         {
             try
             {
+                if (!File.Exists(fileName))
+                    return;
+
                 switch (type)
                 {
                     case HostCMD.GRF:
@@ -272,6 +300,10 @@ namespace SharpPatcher
                         break;
                 }
             }
+            catch (GRF.ContainerFormat.GrfException ex)
+            {
+                 ShowMsgError($"Error processing host command to file '{fileName}': {ex.Message}");
+            }
             catch (Exception ex)
             {
                 ShowMsgError($"Error processing host command to file '{fileName}': {ex.Message}");
@@ -282,11 +314,22 @@ namespace SharpPatcher
 
         #region GRF_DLL
 
-        public static void GRF_Clean_Temp() => GRF.System.TemporaryFilesManager.ClearTemporaryFiles();
+        public static void GRF_Clean_Temp() {
+            try
+            {
+                GRF.System.TemporaryFilesManager.ClearTemporaryFiles();
+            }
+            catch (GRF.ContainerFormat.GrfException ex)
+            {
+                 ShowMsgError($"Error cleaning grf temp: {ex.Message}");
+            }
+        }
 
-        public static void GRF_Set_Temp() {
+        public static void GRF_Set_Temp()
+        {
             GRF.System.Settings.TempPath = $"{programDirectory}/tmp";
-            MainGRF = new GrfHolder(@mainFilePath);
+            if (File.Exists(MainGRFName))
+                MainGRF = new GrfHolder(@MainGRFName);
         }
 
         #endregion GRF_DLL
@@ -303,7 +346,12 @@ namespace SharpPatcher
                 if (patch.Type != HostCMD.GRF && MainGRF.IsOpened)
                     MainGRF.Close();
                 else if (patch.Type == HostCMD.GRF && MainGRF.IsClosed)
-                    MainGRF.Open(@mainFilePath);
+                {
+                    if (File.Exists(MainGRFName))
+                        MainGRF.Open(@MainGRFName);
+                    else
+                        return;
+                }
 
                 if (patch.IsRemove)
                 {
@@ -316,26 +364,25 @@ namespace SharpPatcher
                         case ".rar":
                         case ".zip":
                             await ProcessRarFileAsync(patch.Path, patch.Type);
-                            UpdateUserInfo($"Deleting {patch.Path.Substring(2)}");
-                            File.Delete(patch.Path);
+                            //UpdateUserInfo($"Deleting {patch.Path.Substring(2)}");
+                            //File.Delete(patch.Path);
                             break;
 
                         case ".gpf":
                         case ".grf":
                             await ProcessGpfFileAsync(patch.Path, patch.Type);
-                            // Lida com outros tipos de arquivo ou executa processamento adicional, se necessário
                             if (patch.Type != HostCMD.NONE)
                             {
-                                UpdateUserInfo($"Deleting {patch.Path.Substring(2)}");
-                                File.Delete(patch.Path);
+                                //UpdateUserInfo($"Deleting {patch.Path.Substring(2)}");
+                                //File.Delete(patch.Path);
                             }
                             break;
 
                         case ".thor":
                         case ".rgz":
                             await ProcessThorFileAsync(patch.Path, patch.Type);
-                            UpdateUserInfo($"Deleting {patch.Path.Substring(2)}");
-                            File.Delete(patch.Path);
+                            //UpdateUserInfo($"Deleting {patch.Path.Substring(2)}");
+                            //File.Delete(patch.Path);
                             break;
 
                         default:
@@ -359,11 +406,7 @@ namespace SharpPatcher
         {
             try
             {
-                // Specify the directory where you want to extract the contents
-                string extractionDirectory = programDirectory;
-
                 HashSet<string> arquives = new HashSet<string>();
-                HashSet<string> grfarquives = new HashSet<string>();
 
                 using (var archive = ArchiveFactory.Open(rarFilePath))
                 {
@@ -380,16 +423,15 @@ namespace SharpPatcher
                             UpdateProgressBar(progressPercentage);
 
                             // Extract each entry in the .rar file
-                            entry.WriteToDirectory(extractionDirectory, new ExtractionOptions { ExtractFullPath = true, Overwrite = true });
+                            entry.WriteToDirectory(programDirectory, new ExtractionOptions { ExtractFullPath = true, Overwrite = true });
 
                             if (type == HostCMD.GRF)
                             {
-                                string extractedFilePath = Path.Combine(extractionDirectory, entry.Key);
+                                string extractedFilePath = Path.Combine(programDirectory, entry.Key);
 
                                 // Obtenha o caminho relativo em relação à raiz
-                                string relativePath = extractedFilePath.Substring(extractionDirectory.Length);
+                                string relativePath = extractedFilePath.Substring(programDirectory.Length);
                                 MainGRF.Commands.AddFilesInDirectory(@relativePath, @extractedFilePath);
-                                grfarquives.Add(@relativePath);
                                 arquives.Add(extractedFilePath);
                             }
                         }
@@ -397,17 +439,23 @@ namespace SharpPatcher
 
                     if (type == HostCMD.GRF)
                     {
-                        UpdateUserInfo($"Saving {mainFilePath}");
+                        UpdateUserInfo($"Saving {MainGRFName}");
                         MainGRF.QuickSave();
-                        for (int i = 0; i < arquives.Count; i++)
+                        int count = 0;
+                        foreach (var arquive in arquives)
                         {
-                            UpdateUserInfo($"Deleting {arquives.ElementAtOrDefault(i)}");
-                            File.Delete(arquives.ElementAtOrDefault(i));
+                            UpdateUserInfo($"Deleting {arquive}");
+                            if(File.Exists(arquive))
+                                File.Delete(arquive);
+                            count++;
                         }
                     }
-                    grfarquives.Clear();
                     arquives.Clear();
                 }
+            }
+            catch (GRF.ContainerFormat.GrfException ex)
+            {
+                 ShowMsgError($"Error processing host command to file '{rarFilePath}': {ex.Message}");
             }
             catch (Exception ex)
             {
@@ -435,7 +483,7 @@ namespace SharpPatcher
                                     int progressPercentage = (++count * 100) / thor.FileTable.Count;
                                     UpdateProgressBar(progressPercentage);
                                 }
-                                UpdateUserInfo($"Saving {mainFilePath}");
+                                UpdateUserInfo($"Saving {MainGRFName}");
                                 MainGRF.QuickSave();
                             }
                             break;
@@ -461,6 +509,10 @@ namespace SharpPatcher
                     thor.Close();
                 }
             }
+            catch (GRF.ContainerFormat.GrfException ex)
+            {
+                 ShowMsgError($"Error Deleting .thor files '{FilePath}': {ex.Message}");
+            }
             catch (Exception ex)
             {
                 ShowMsgError($"Error Deleting .thor files '{FilePath}': {ex.Message}");
@@ -477,7 +529,7 @@ namespace SharpPatcher
                     {
                         case HostCMD.GRF:
                             {
-                                UpdateUserInfo($"Merging {mainFilePath}");
+                                UpdateUserInfo($"Merging {MainGRFName}");
                                 Task.WaitAll(Task.Run(() => MainGRF.QuickMerge(patch)));
                             }
                             break;
@@ -491,6 +543,10 @@ namespace SharpPatcher
                     }
                     patch.Close();
                 }
+            }
+            catch (GRF.ContainerFormat.GrfException ex)
+            {
+                 ShowMsgError($"Error extracting .gpf file '{FilePath}': {ex.Message}");
             }
             catch (Exception ex)
             {

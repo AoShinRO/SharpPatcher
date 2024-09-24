@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using static SharpPatcher.AnimationHelper;
-using static SharpPatcher.AssemblyResolver;
 using static SharpPatcher.Config;
 using static SharpPatcher.Consts;
 using static SharpPatcher.DownloadHelper;
@@ -25,9 +24,6 @@ namespace SharpPatcher
 
         public void StartingProcess()
         {
-            Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-
             GRF_Set_Temp();
             GetWindowPosition();
 
@@ -43,7 +39,7 @@ namespace SharpPatcher
         {
             try
             {
-                if (LoadWebpages())
+                if (LoadWebpages() == true)
                 {
                     if (Urls.FirstOrDefault() != string.Empty)
                         webBrowser1.Navigate(Urls.FirstOrDefault());
@@ -104,7 +100,8 @@ namespace SharpPatcher
             {
                 case Visibility.Visible:
                     ConfigBtn_MouseDown(sender, e);
-                    File.Delete(indicesFilePath);
+                    if (File.Exists(DownloadedPatches))
+                        File.Delete(DownloadedPatches);
                     patchcount = 0;
                     downloadedIndices.Clear();
                     Login.IsEnabled = false;
@@ -182,7 +179,7 @@ namespace SharpPatcher
             else
                 web_Counter = 0;
 
-            webBrowser1.Navigate(Urls.ElementAtOrDefault(web_Counter));
+            webBrowser1?.Navigate(Urls?.ElementAtOrDefault(web_Counter));
         }
 
         private void PatchNotes_MouseDown(object sender, MouseEventArgs e)
@@ -192,7 +189,7 @@ namespace SharpPatcher
             else
                 web_Counter = Urls.Count() - 1;
 
-            webBrowser1.Navigate(Urls.ElementAtOrDefault(web_Counter));
+            webBrowser1?.Navigate(Urls?.ElementAtOrDefault(web_Counter));
         }
 
         #endregion WebCarroucel

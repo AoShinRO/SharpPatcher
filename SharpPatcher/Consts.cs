@@ -45,8 +45,11 @@ namespace SharpPatcher
         public static Thickness WindowedBtnMargin { set; get; }
 
         public static readonly HashSet<int> downloadedIndices = new HashSet<int>();
+
         public static readonly HashSet<string> Urls = new HashSet<string>();
+
         public static readonly HashSet<string> AllowedDLLS = new HashSet<string>();
+
         public static readonly HashSet<string> UnAllowedProcess = new HashSet<string>();
 
         public static int web_Counter { set; get; }
@@ -56,6 +59,8 @@ namespace SharpPatcher
         public static Point startDragPoint { set; get; }
 
         public static readonly string programDirectory = Directory.GetCurrentDirectory();
+
+        public static readonly string DownloadFolderName = "Downloads";
 
         public static List<PatcherQueueArquive> PatcherQueue { set; get; } = new List<PatcherQueueArquive>();
 

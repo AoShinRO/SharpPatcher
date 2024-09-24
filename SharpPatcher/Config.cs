@@ -5,8 +5,8 @@
 
         public static readonly string patchUrl = "http://127.0.0.1/kpatcher";
         public static readonly string patchArchive = "patch_notes.txt"; //srv side archive
-        public static readonly string mainFilePath = "server.grf";
-        public static readonly string indicesFilePath = "patch.ini"; //client side archive
+        public static readonly string MainGRFName = "server.grf";
+        public static readonly string DownloadedPatches = "patch.ini"; //client side archive
         public static readonly string weburlPath = "links.ini"; //client side archive
 
         #region Links

@@ -135,7 +135,8 @@ namespace SharpPatcher
                 {
                     try
                     {
-                        File.Delete(file);
+                        if(File.Exists(file))
+                            File.Delete(file);
                     }
                     catch (IOException)
                     {
